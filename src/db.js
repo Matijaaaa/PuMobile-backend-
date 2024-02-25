@@ -24,19 +24,6 @@ export default () => {
       } else {
         console.log("Uspješno spajanja na bazu");
         db = client.db("PuMobile");
-
-        // Add the 'reservations' collection
-        db.createCollection("reservations", (err, collection) => {
-          if (err) {
-            console.error("Error connecting to MongoDB:", err);
-            reject(
-              "Greška prilikom stvaranja 'reservations' collectiona: " + err
-            );
-          } else {
-            console.log("Kreiran 'reservations' collection");
-          }
-        });
-
         resolve(db);
       }
     });

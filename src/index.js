@@ -5,8 +5,6 @@ import cors from "cors";
 
 const app = express(); // instanciranje aplikacije
 const port = 3000; // port na kojem će web server slušati
-app.get("/", (req, res) => res.send("Hello World, ovaj puta preko browsera!"));
-app.listen(port, () => console.log(`Slušam na portu ${port}!`));
 
 const corsOptions = {
   origin: "http://localhost:8080",
@@ -26,8 +24,7 @@ app.post("/app/reservation", async (req, res) => {
     const db = await dbConnect();
 
     // Use the 'reservations' collection
-    const reservationsCollection = db.collection("reservations");
-
+    const reservationsCollection = db.collection("Reservations");
     // Extract reservation data from the request body
     const {
       selectedLocation,
@@ -64,7 +61,4 @@ app.post("/app/reservation", async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+app.listen(port, () => console.log(`Slušam na portu ${port}!`));
