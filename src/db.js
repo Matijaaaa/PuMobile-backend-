@@ -13,15 +13,30 @@ let db = null;
 export default () => {
   return new Promise((resolve, reject) => {
     if (db && client.isConnected()) {
+      console.log("Using existing database connection");
       resolve(db);
     }
 
     client.connect((err) => {
       if (err) {
+        console.error("Error connecting to MongoDB:", err);
         reject("Došlo je do greške prilikom spajanja: " + err);
       } else {
         console.log("Uspješno spajanja na bazu");
         db = client.db("PuMobile");
+
+        // Add the 'reservations' collection
+        db.createCollection("reservations", (err, collection) => {
+          if (err) {
+            console.error("Error connecting to MongoDB:", err);
+            reject(
+              "Greška prilikom stvaranja 'reservations' collectiona: " + err
+            );
+          } else {
+            console.log("Kreiran 'reservations' collection");
+          }
+        });
+
         resolve(db);
       }
     });
