@@ -2,6 +2,7 @@ import express from "express";
 import dbConnect from "./db.js";
 import "dotenv/config";
 import cors from "cors";
+import auth from "./auth.js";
 
 const app = express(); // instanciranje aplikacije
 const port = 3000; // port na kojem će web server slušati
@@ -16,12 +17,28 @@ app.get("/", (req, res) => {
   res.send("Welcome to PuMobile API");
 });
 
+app.post("/users", async (req, res) => {
+  let user = req.body;
+
+  try {
+    const registrationResult = await auth.registerUser(user);
+
+    if (registrationResult.error) {
+      res.status(400).json({ error: registrationResult.error });
+    } else {
+      res.status(201).json({ userId: registrationResult.userId });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post("/app/reservation", async (req, res) => {
   try {
     const db = await dbConnect();
 
     const reservationsCollection = db.collection("Reservations");
-    // Extract reservation data from the request body
+    // Extract iz bodija
     const {
       selectedLocation,
       selectedLocation2,
