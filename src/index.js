@@ -1,6 +1,6 @@
-import express from "express";
-import dbConnect from "./db.js";
 import "dotenv/config";
+import express, { response } from "express";
+import dbConnect from "./db.js";
 import cors from "cors";
 import auth from "./auth.js";
 
@@ -15,6 +15,20 @@ app.use(express.json()); //dekodira json poruke
 
 app.get("/", (req, res) => {
   res.send("Welcome to PuMobile API");
+});
+
+app.get("/tajna", [auth.verify], (req, res) => {
+  res.json({ message: "Ovo je tajna " + req.jwt.email });
+});
+
+app.post("/auth", async (req, res) => {
+  let user = req.body;
+  try {
+    let result = await auth.authenticateUser(user.email, user.password);
+    res.json(result);
+  } catch (e) {
+    res.status(401).json({ error: e.message });
+  }
 });
 
 app.post("/users", async (req, res) => {
@@ -33,7 +47,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.post("/app/reservation", async (req, res) => {
+app.post("/app/reservation", [auth.verify], async (req, res) => {
   try {
     const db = await dbConnect();
 
