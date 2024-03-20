@@ -52,6 +52,9 @@ app.post("/app/reservation", [auth.verify], async (req, res) => {
     const db = await dbConnect();
 
     const reservationsCollection = db.collection("Reservations");
+
+    console.log("Request Body:", req.body);
+
     // Extract iz bodija
     const {
       selectedLocation,
