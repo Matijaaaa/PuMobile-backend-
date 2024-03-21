@@ -65,6 +65,7 @@ app.post("/app/reservation", [auth.verify], async (req, res) => {
       cardNumber,
       expirationDate,
       cardHolder,
+      Price,
     } = req.body;
 
     // Insert MongoDB
@@ -77,6 +78,7 @@ app.post("/app/reservation", [auth.verify], async (req, res) => {
       cardNumber,
       expirationDate,
       cardHolder,
+      Price,
     });
     console.log("Result:", result);
 
