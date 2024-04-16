@@ -8,7 +8,7 @@ const app = express(); // instanciranje aplikacije
 const port = process.env.PORT; // port na kojem će web server slušati
 
 const corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "https://pumobile-frontend.onrender.com",
 };
 app.use(cors(corsOptions));
 app.use(express.json()); //dekodira json poruke
